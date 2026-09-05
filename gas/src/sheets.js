@@ -19,7 +19,7 @@ function createAndReadSheet() {
 }
 
 /**
- * 既存のスプレッドシートを開いて読み書きするサンプル。
+ * 既存のスプレッドシートを開いて読み取るサンプル。
  * spreadsheetId はスプレッドシートのURLに含まれるIDを指定する。
  */
 function readExistingSheet(spreadsheetId) {

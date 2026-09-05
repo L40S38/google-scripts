@@ -3,7 +3,7 @@
 Google Workspace (スプレッドシート / ドキュメント / スライド / メール / ドライブ) を操作する方法を学ぶためのリポジトリ。
 以下の2トラックを並行して試す。
 
-- [`gas/`](gas/) — Google Apps Script (JavaScript)。Google純正のスクリプト環境で、認証不要ですぐ各サービスを叩ける。
+- [`gas/`](gas/) — Google Apps Script (JavaScript)。Google純正のスクリプト環境で、OAuthクライアントの設定なしで各サービスを叩ける(初回実行時の権限承認は必要)。
 - [`go/`](go/) — Go言語 + 公式クライアントライブラリ (`google.golang.org/api`)。OAuth2認証を自分で組み、外部プログラムからREST API経由で操作する。
 
 ## 進め方
