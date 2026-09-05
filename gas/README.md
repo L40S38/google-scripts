@@ -14,9 +14,10 @@ clasp login
 
 ### 新規プロジェクトの作成
 
-`clasp create` はリモート側に新規作成したプロジェクトのデフォルトファイル(`appsscript.json` など)をカレントディレクトリに書き込む。`gas/` で直接実行すると、チェックイン済みで `oauthScopes` を設定済みの `gas/appsscript.json` がデフォルト内容で上書きされてしまうため、空の一時ディレクトリで作成してから `.clasp.json` だけを `gas/` に移す。
+`clasp create` はリモート側に新規作成したプロジェクトのデフォルトファイル(`appsscript.json` など)をカレントディレクトリに書き込む。`gas/` で直接実行すると、チェックイン済みで `oauthScopes` を設定済みの `gas/appsscript.json` がデフォルト内容で上書きされてしまうため、空の一時ディレクトリで作成してから `.clasp.json` だけを `gas/` に移す。以下はリポジトリのルートディレクトリから実行する想定のコマンド。
 
 ```powershell
+cd gas
 mkdir ../gas-create-tmp
 cd ../gas-create-tmp
 clasp create --type standalone --title "google-scripts-study"

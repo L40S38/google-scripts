@@ -47,7 +47,26 @@ description: GitHub PR に付いたレビューコメント(人間のレビュ�
    gh pr diff NUMBER
    ```
 
-同じスレッドに複数返信がある場合は、最新の状態(すでに解決済み・返信で反論されている等)を踏まえて1件の指摘として扱う。すでに resolved になっているスレッドや、指摘者自身が撤回しているものは、その旨を判定理由に明記する。
+5. **レビュースレッドの resolved 状態(GraphQL)**
+   上記の REST エンドポイント(`pulls/.../comments` 等)のレスポンスにはスレッドの resolved 状態が含まれないため、resolved 状態を判定に使う場合は GraphQL で別途取得する:
+   ```
+   gh api graphql -f query='
+     query($owner: String!, $repo: String!, $number: Int!) {
+       repository(owner: $owner, name: $repo) {
+         pullRequest(number: $number) {
+           reviewThreads(first: 100) {
+             nodes {
+               isResolved
+               comments(first: 100) { nodes { databaseId } }
+             }
+           }
+         }
+       }
+     }' -F owner=OWNER -F repo=REPO -F number=NUMBER
+   ```
+   `comments.nodes[].databaseId` が Step 2-1 で取得したインラインコメントの `id` に対応するので、これで各コメントが属するスレッドの `isResolved` を突き合わせる。
+
+同じスレッドに複数返信がある場合は、最新の状態(すでに解決済み・返信で反論されている等)を踏まえて1件の指摘として扱う。resolved 状態を判定理由に使う場合は上記の GraphQL クエリで確認した上で明記する。GraphQL を実行せず REST の情報だけで判定した場合は、resolved 状態は「未確認」として扱い、断定しない。
 
 ## Step 3: 判断材料の収集
 

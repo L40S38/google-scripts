@@ -52,7 +52,10 @@ func GetClient(ctx context.Context, credentialsPath, tokenPath string, scopes ..
 // it starts a local HTTP server on an ephemeral port, prints the consent URL
 // for the user to open, and waits for Google to redirect the browser back to
 // that server with the authorization code. Desktop clients no longer support
-// the old out-of-band flow of displaying a code for the user to paste.
+// the old out-of-band flow of displaying a code for the user to paste. It
+// forces the consent prompt (oauth2.ApprovalForce) because this only runs on
+// a cache miss, and Google omits the refresh token on a re-consent unless
+// forced, which would otherwise leave the newly cached token unrenewable.
 func tokenFromWeb(ctx context.Context, config *oauth2.Config) (*oauth2.Token, error) {
 	listener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
@@ -98,7 +101,7 @@ func tokenFromWeb(ctx context.Context, config *oauth2.Config) (*oauth2.Token, er
 		server.Shutdown(shutdownCtx)
 	}()
 
-	authURL := config.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	authURL := config.AuthCodeURL(state, oauth2.AccessTypeOffline, oauth2.ApprovalForce)
 	fmt.Printf("ブラウザで次のURLを開いて認証してください:\n%v\n\n認証完了を待っています...\n", authURL)
 
 	select {

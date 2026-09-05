@@ -14,10 +14,10 @@ Google Workspace (スプレッドシート / ドキュメント / スライド /
 
 ## 前提ツール
 
-| ツール | 用途 | 状態 |
+| ツール | 用途 | インストール方法 |
 |---|---|---|
-| Node.js | GASのローカル開発ツール `clasp` の実行に使用 | インストール済み (v20.19.1) |
-| `@google/clasp` | GASプロジェクトをローカルで編集・pushするCLI | 未導入。[gas/README.md](gas/README.md) 参照 |
-| Go | Goサンプルのビルド・実行 | 未インストール。https://go.dev/dl/ からインストールするか `winget install GoLang.Go` |
+| Node.js | GASのローカル開発ツール `clasp` の実行に使用 | https://nodejs.org/ から導入(推奨: v20以降) |
+| `@google/clasp` | GASプロジェクトをローカルで編集・pushするCLI | `npm install -g @google/clasp`。詳細は [gas/README.md](gas/README.md) 参照 |
+| Go | Goサンプルのビルド・実行 | `winget install GoLang.Go` または https://go.dev/dl/ から導入 |
 
 詳細な認証・実行手順は各ディレクトリのREADMEを参照。
