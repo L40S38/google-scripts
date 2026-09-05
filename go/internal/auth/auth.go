@@ -49,17 +49,31 @@ func GetClient(ctx context.Context, credentialsPath, tokenPath string, scopes ..
 }
 
 // tokenFromWeb runs the loopback OAuth flow used by "Desktop app" clients:
-// it starts a local HTTP server on an ephemeral port, prints the consent URL
-// for the user to open, and waits for Google to redirect the browser back to
-// that server with the authorization code. Desktop clients no longer support
-// the old out-of-band flow of displaying a code for the user to paste. It
-// forces the consent prompt (oauth2.ApprovalForce) because this only runs on
-// a cache miss, and Google omits the refresh token on a re-consent unless
+// it starts a local HTTP server, prints the consent URL for the user to
+// open, and waits for Google to redirect the browser back to that server
+// with the authorization code. Desktop clients no longer support the old
+// out-of-band flow of displaying a code for the user to paste. It forces
+// the consent prompt (oauth2.ApprovalForce) because this only runs on a
+// cache miss, and Google omits the refresh token on a re-consent unless
 // forced, which would otherwise leave the newly cached token unrenewable.
+//
+// The listen address defaults to an OS-assigned port on the loopback
+// interface (127.0.0.1:0), which is all a native run needs. Running inside
+// Docker requires a fixed, published port instead of a random one, and the
+// container's loopback isn't reachable from the host, so OAUTH_CALLBACK_ADDR
+// can override it to something like "0.0.0.0:8080" (paired with `docker run
+// -p 127.0.0.1:8080:8080`). The redirect URL Google sends the browser to
+// always names 127.0.0.1, since that's the address the browser itself must
+// reach — either the sample process directly, or the host side of the
+// container's published port.
 func tokenFromWeb(ctx context.Context, config *oauth2.Config) (*oauth2.Token, error) {
-	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	addr := os.Getenv("OAUTH_CALLBACK_ADDR")
+	if addr == "" {
+		addr = "127.0.0.1:0"
+	}
+	listener, err := net.Listen("tcp", addr)
 	if err != nil {
-		return nil, fmt.Errorf("starting local callback listener: %w", err)
+		return nil, fmt.Errorf("starting local callback listener on %q: %w", addr, err)
 	}
 	defer listener.Close()
 
