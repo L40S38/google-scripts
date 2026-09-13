@@ -16,8 +16,6 @@ Google Workspace (スプレッドシート / ドキュメント / スライド /
 
 | ツール | 用途 | インストール方法 |
 |---|---|---|
-| Node.js | GASのローカル開発ツール `clasp` の実行に使用 | https://nodejs.org/ から導入(推奨: v20以降) |
-| `@google/clasp` | GASプロジェクトをローカルで編集・pushするCLI | `npm install -g @google/clasp`。詳細は [gas/README.md](gas/README.md) 参照 |
-| Go | Goサンプルのビルド・実行 | `winget install GoLang.Go` または https://go.dev/dl/ から導入 |
+| Docker | GAS・Go両トラックの実行(コンテナ上で動かすためNode.js/clasp/Go自体のホストへのインストールは不要)。詳細は [gas/README.md](gas/README.md) / [go/README.md](go/README.md) 参照 | https://www.docker.com/products/docker-desktop/ から導入 |
 
 詳細な認証・実行手順は各ディレクトリのREADMEを参照。
