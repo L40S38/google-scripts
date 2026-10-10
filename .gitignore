@@ -6,5 +6,9 @@ go/token.json
 gas/.clasp.json
 node_modules/
 
+# Gemini
+gemini/.env
+gemini/**/*.mp4
+
 # Claude Code
 .claude/
