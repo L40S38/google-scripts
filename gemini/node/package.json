@@ -1,0 +1,8 @@
+{
+  "name": "gemini-node-sample",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^2.3.0"
+  }
+}

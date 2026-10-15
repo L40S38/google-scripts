@@ -1,0 +1,14 @@
+# Go
+go/credentials.json
+go/token.json
+
+# GAS (clasp)
+gas/.clasp.json
+node_modules/
+
+# Gemini
+gemini/.env
+gemini/**/*.mp4
+
+# Claude Code
+.claude/
